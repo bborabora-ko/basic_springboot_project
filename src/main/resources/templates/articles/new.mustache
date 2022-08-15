@@ -1,0 +1,15 @@
+{{>layouts/header}}
+
+<form class="container" action="/articles/create" method="post">
+    <div class="mb-3">
+        <label class="form-label">제목</label>
+        <input type="text" class="form-control" name="title"> <!-- name 속성 값으로는 DTO 필드명 기재, name속성을 작성하지 않으면 DTO에 연결되지 않음-->
+    </div>
+    <div class="mb-3">
+        <label class="form-label">내용</label>
+        <textarea class="form-control" rows="3" name="content"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{{>layouts/footer}}
