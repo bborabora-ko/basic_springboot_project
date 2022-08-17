@@ -40,7 +40,7 @@ public class ArticleController {
         log.info(saved.toString());
 //        System.out.println(saved.toString()); //데이터 잘 저장되었는지 확인
 
-        return "";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}") //{}표시로 이 안은 변하는 수라는걸 알려줌

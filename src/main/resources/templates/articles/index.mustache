@@ -12,11 +12,13 @@
     {{#articleList}} <!-- mustacle문법 : 안의 데이터가 묶음일 경우 안의 내용이 반복됨 -->
     <tr>
         <th>{{id}}</th>
-        <td>{{title}}</td>
+        <td><a href="/articles/{{id}}">{{title}}</a></td>
         <td>{{content}}</td>
     </tr>
     {{/articleList}} <!-- articleList 사용영역 끝 -->
     </tbody>
 </table>
+
+<a href="/articles/new">New Article</a> <!-- a태그의 href속성값은 요청을 보낼 링크주소를 가짐 -->
 
 {{>layouts/footer}}
