@@ -1,0 +1,22 @@
+{{>layouts/header}}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#articleList}} <!-- mustacle문법 : 안의 데이터가 묶음일 경우 안의 내용이 반복됨 -->
+    <tr>
+        <th>{{id}}</th>
+        <td>{{title}}</td>
+        <td>{{content}}</td>
+    </tr>
+    {{/articleList}} <!-- articleList 사용영역 끝 -->
+    </tbody>
+</table>
+
+{{>layouts/footer}}
