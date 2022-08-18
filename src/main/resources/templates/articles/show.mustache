@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-        {{#article}} <!-- 모델에 있는 데이터는 #을 통해 가져올 수 있음-->
+        {{#article}} <!-- 모델에 있는 데이터를 가져옴. #을 쓰면 /article로 닫을때까지 계속 사용가능-->
         <tr>
             <th>{{id}}</th>
             <td>{{title}}</td>
@@ -19,6 +19,7 @@
     </tbody>
 </table>
 
+<a href="/articles/{{article.id}}/edit" class="btn btn-primary">edit</a> <!-- #을 쓰지 않을 경우-->
 <a href="/articles">Go to Article List</a>
 
 {{>layouts/footer}}

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.nio.file.Path;
 import java.util.List;
 
 @Controller
@@ -43,8 +44,8 @@ public class ArticleController {
         return "redirect:/articles/" + saved.getId();
     }
 
-    @GetMapping("/articles/{id}") //{}표시로 이 안은 변하는 수라는걸 알려줌
-    public String show(@PathVariable Long id, Model model){ //@PathVariable Url요청로부터 파라미터로 받아옴
+    @GetMapping("/articles/{id}") //{}표시: 변수라는걸 알려줌
+    public String show(@PathVariable Long id, Model model){ //@PathVariable Url요청에서 파라미터 받아옴({}안의 변수명 그대로 변수명 사용)
         log.info("id = " + id); //파라미터 잘 들어왔는지 확인
 
         // 1. id로 데이터를 가져옴
@@ -68,6 +69,19 @@ public class ArticleController {
         // 3. view 페이지를 설정
         return "articles/index"; //articles/index.mustache 파일이 뷰페이지로 사용되도록
 
+    }
+
+    @GetMapping("/articles/{id}/edit")
+    public String edit(@PathVariable Long id, Model model) {
+
+        // 수정할 데이터를 가져오기!
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+
+        // 모델에 데이터 등록
+        model.addAttribute("article", articleEntity);
+
+        // 뷰 페이지 설정
+        return "articles/edit";
 
     }
 }
