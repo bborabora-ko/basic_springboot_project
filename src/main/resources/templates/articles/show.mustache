@@ -19,7 +19,10 @@
     </tbody>
 </table>
 
-<a href="/articles/{{article.id}}/edit" class="btn btn-primary">edit</a> <!-- #을 쓰지 않을 경우-->
+<a href="/articles/{{article.id}}/edit" class="btn btn-primary">Edit</a> <!-- #을 쓰지 않을 경우-->
+<!-- 원래는 delete방식으로 해야하지만, html은 get과 post방식만 지원함
+    따라서, 현재는 get방식을 지원하는 a태그를 사용하겠음. 추후 js를 통해 delete방식 구현할 예정-->
+<a href="/articles/{{article.id}}/delete" class="btn btn-danger">Delete</a> <!-- #을 쓰지 않을 경우-->
 <a href="/articles">Go to Article List</a>
 
 {{>layouts/footer}}
