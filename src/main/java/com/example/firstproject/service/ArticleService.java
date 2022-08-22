@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,8 @@ public class ArticleService {
 
     }
 
-    // 트랜젝션 테스트를 위한 메소드
+    // 트랜잭션 테스트를 위한 메소드
+    @Transactional // 해당 메소드를 트랜잭션으로 묶는다! -> 해당 메소드가 실패하면 이전상태로 롤백한다!
     public List<Article> createArticles(List<ArticleForm> dtos) {
         // 1. dto 묶음을 entity 묶음으로 변환
         List<Article> articleList = dtos.stream()
