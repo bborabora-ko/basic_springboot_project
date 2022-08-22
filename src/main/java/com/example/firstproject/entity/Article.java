@@ -24,7 +24,7 @@ public class Article {
     @Column
     private String content;
 
-    public void patch(Article article) {
+    public void patch(Article article) { //수정된 데이터가 있는 경우에 그 부분만 고쳐줌
         if(article.title != null){
             this.title = article.title;
         }
