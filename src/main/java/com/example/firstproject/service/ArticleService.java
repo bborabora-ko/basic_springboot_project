@@ -34,17 +34,6 @@ public class ArticleService {
             return null;
         }
         return articleRepository.save(article);
-
-        //        Article article = dto.toEntity();
-//        if (article.getId() != null) {
-//            Article target = articleRepository.findById(article.getId()).orElse(null);
-//            if (target != null){
-//                if(article.getId() == target.getId()) {
-//                    return null;
-//                }
-//            }
-//        }
-//        return articleRepository.save(article);
     }
 
     public Article update(Long id, ArticleForm dto) {
