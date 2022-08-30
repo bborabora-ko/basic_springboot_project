@@ -5,6 +5,7 @@ import com.example.firstproject.entity.Article;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +67,8 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Transactional // 테스트 메서드에 @Transcatinal을 붙이면
+                   // 테스트 종료 후 변경된 데이터를 롤백(처음으로 되돌림)처리
     void create_성공__title과_content만_있는_dto_입력() {
         // 예상
         String title = "라라라";
@@ -82,6 +85,7 @@ class ArticleServiceTest {
     }
 
     @Test
+    @Transactional
     void create_실패__id가_포함된_dto_입력() {
         // 예상
         String title = "라라라";
