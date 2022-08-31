@@ -101,4 +101,134 @@ class ArticleServiceTest {
         assertEquals(expected, article);
 
     }
+
+    /* 과제 */
+    @Test
+    @Transactional
+    void update_성공__존재하는_id와_title_content가_있는_dto_입력(){
+        // 예상
+        Long id = 3L;
+        String title = "update1"; //*수정값
+        String content = "테스트1"; //*수정값
+        ArticleForm dto = new ArticleForm(id, title, content);
+        Article expected = dto.toEntity();
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected, article);
+    }
+
+    @Test
+    @Transactional
+    void update_성공__존재하는_id와_title만_있는_dto_입력(){
+        // 예상
+        Long id = 1L;
+        String title = "update2"; //*수정값
+        String content = "1111"; //기존값
+        ArticleForm dto = new ArticleForm(id, title, null);
+        Article expected = new Article(id, title, content);
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected.toString(), article.toString());
+
+    }
+
+    @Test
+    @Transactional
+    void update_실패__존재하지_않는_id의_dto_입력(){
+        // 예상
+        Long id = -1L; //존재하지 않는 id입력
+        String title = "update3";
+        String content = "실패 테스트";
+        ArticleForm dto = new ArticleForm(id, title, content);
+        Article expected = null;
+
+        // 실제
+        Article article = articleService.update(id, dto); //null
+
+        // 비교
+        assertEquals(expected, article);
+
+    }
+
+//    @Test
+//    @Transactional
+//    void update_실패__id만_있는_dto_입력(){
+//        /* 1. 기존코드 이용 -> 문제 존재
+//         * Article.patch() 사용하여 null인 title과 content를 기존값으로 대체한 후 전송
+//         */
+//
+//        /* 해당 코드 문제점
+//         * 1번 기존 title과 content를 다 지워 공백으로 보내는 것(ex.사용자가 둘다 지우기를 원함)
+//         * 2번 수정 값을 입력하지 않고 id만 보낼시(ex.수정을 하지 않고 싶을 경우)
+//         * 의도가 명확히 다른 1,2번 상황 모두 title, content가 null값으로 보내지고 동일하게 처리된다.
+//         * 처리결과: null이 해당 id의 기존 데이터로 대체되어 수정처리됨
+//         */
+//
+//        // 예상
+//        Long id = 1L;
+//        String title = null;
+//        String content = null;
+//        ArticleForm dto = new ArticleForm(id, title, content);
+//        Article expected = new Article(1L, "가가가", "1111");
+//
+//
+//        // 실제
+//        Article article = articleService.update(id, dto);
+//
+//        // 비교
+//        assertEquals(expected.toString(), article.toString());
+//
+//    }
+
+    @Test
+    @Transactional
+    void update_실패__id만_있는_dto_입력(){
+        /* 2. 수정코드
+        * title과 content 모두 null일 경우 null객체 반환하게 하여 에러발생시키기
+        * */
+        // 예상
+        Long id = 1L;
+        String title = null;
+        String content = null;
+        ArticleForm dto = new ArticleForm(id, title, content);
+        Article expected = null;
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected, article);
+
+    }
+
+
+
+    @Test
+    @Transactional
+    void delete_성공__존재하는_id_입력(){
+        // 예상
+
+        // 실제
+
+        // 비교
+
+    }
+
+    @Test
+    @Transactional
+    void delete_실패__존재하지_않는_id_입력(){
+        // 예상
+
+        // 실제
+
+        // 비교
+
+    }
+
 }

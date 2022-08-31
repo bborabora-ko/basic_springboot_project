@@ -41,6 +41,12 @@ public class ArticleService {
         Article article = dto.toEntity();
         log.info("id: {}, article: {}", id, article.toString());
 
+        // 수정1-1. 잘못된 요청 처리(존재하는 id만 입력한 경우)
+        if(article.getTitle() == null & article.getContent() == null){
+            log.info("잘못된 요청! id : {}, article{}", id, article.toString());
+            return null;
+        }
+
         // 2. 대상 엔티티 조회
         Article target = articleRepository.findById(id).orElse(null);
 
@@ -51,11 +57,15 @@ public class ArticleService {
             return null;
         }
 
-        // 4. 업데이트 및 정상 응답(200)
+//        /* 수정전 4단계에서의 문제점
+//         * 1번 기존 title과 content를 다 지워 공백으로 보내는 것과
+//         * 2번 수정 값을 입력하지 않고 id만 보낼시
+//         * 의도가 명확히 다른 1,2번 상황 모두 title, content가 null값으로 보내지고 동일하게 처리된다.
+//         */
+//        // 4. 업데이트 및 정상 응답(200)
         target.patch(article);
         Article updated = articleRepository.save(target);
         return updated;
-
     }
 
     public Article delete(Long id) {
