@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController //RestAPI 용 컨트롤러, 데이터(json)을 반환
@@ -39,15 +40,23 @@ public class ArticleApiController {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); //.build() : 바디에 아무것도 담지 않을때 사용
     }
 
+//    //PATCH
+//    @PatchMapping("/api/articles/{id}")
+//    public ResponseEntity<Article> update(@PathVariable Long id, @Valid @RequestBody ArticleForm dto){ //RestAPI에서 json으로 데이터를 던질때에는 @RequestBody 추가해야함
+//        Article updated = articleService.update(id, dto);
+//        return (updated != null) ?
+//                ResponseEntity.status(HttpStatus.OK).body(updated) :
+//                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//    }
+
+    //* 3차 수정코드
     //PATCH
     @PatchMapping("/api/articles/{id}")
-    public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm dto){ //RestAPI에서 json으로 데이터를 던질때에는 @RequestBody 추가해야함
+    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody ArticleForm dto){ //RestAPI에서 json으로 데이터를 던질때에는 @RequestBody 추가해야함
         Article updated = articleService.update(id, dto);
         return (updated != null) ?
                 ResponseEntity.status(HttpStatus.OK).body(updated) :
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
-
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 요청(대상이 없거나, id가 다름)");
     }
 
     //DELETE

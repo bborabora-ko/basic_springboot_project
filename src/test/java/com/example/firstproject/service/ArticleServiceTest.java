@@ -4,7 +4,13 @@ import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -12,12 +18,20 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest // 해당 클래스는 스프링부트와 연동되어 테스팅된다
+@AutoConfigureMockMvc //MockMvc등록
 class ArticleServiceTest {
 
     @Autowired
     ArticleService articleService;
+
+    //*3차 수정코드
+    @Autowired
+    private MockMvc mockMvc;
 
     @Test
     void index() {
@@ -117,26 +131,27 @@ class ArticleServiceTest {
         Article article = articleService.update(id, dto);
 
         // 비교
-        assertEquals(expected, article);
-    }
-
-    @Test
-    @Transactional
-    void update_성공__존재하는_id와_title만_있는_dto_입력(){
-        // 예상
-        Long id = 1L;
-        String title = "update2"; //*수정값
-        String content = "1111"; //기존값
-        ArticleForm dto = new ArticleForm(id, title, null);
-        Article expected = new Article(id, title, content);
-
-        // 실제
-        Article article = articleService.update(id, dto);
-
-        // 비교
         assertEquals(expected.toString(), article.toString());
-
     }
+
+//    //* 3차 수정코드 적용시 에러 발생
+//    @Test
+//    @Transactional
+//    void update_성공__존재하는_id와_title만_있는_dto_입력(){
+//        // 예상
+//        Long id = 1L;
+//        String title = "update2"; //*수정값
+//        String content = "1111"; //기존값
+//        ArticleForm dto = new ArticleForm(id, title, null);
+//        Article expected = new Article(id, title, content);
+//
+//        // 실제
+//        Article article = articleService.update(id, dto);
+//
+//        // 비교
+//        assertEquals(expected.toString(), article.toString());
+//
+//    }
 
     @Test
     @Transactional
@@ -159,7 +174,7 @@ class ArticleServiceTest {
 //    @Test
 //    @Transactional
 //    void update_실패__id만_있는_dto_입력(){
-//        /* 1. 기존코드 이용 -> 문제 존재
+//        /* 1차 기존코드 이용 -> 문제 존재
 //         * Article.patch() 사용하여 null인 title과 content를 기존값으로 대체한 후 전송
 //         */
 //
@@ -186,35 +201,61 @@ class ArticleServiceTest {
 //
 //    }
 
+//    @Test
+//    @Transactional
+//    void update_실패__id만_있는_dto_입력(){
+//        /* 2차 수정코드
+//        * title과 content 모두 null일 경우 null객체 반환하게 하여 에러발생시키기
+//        * */
+//        // 예상
+//        Long id = 1L;
+//        String title = null;
+//        String content = null;
+//        ArticleForm dto = new ArticleForm(id, title, content);
+//        Article expected = null;
+//
+//        // 실제
+//        Article article = articleService.update(id, dto);
+//
+//        // 비교
+//        assertEquals(expected, article);
+//
+//    }
+
+
     @Test
     @Transactional
     void update_실패__id만_있는_dto_입력(){
-        /* 2. 수정코드
-        * title과 content 모두 null일 경우 null객체 반환하게 하여 에러발생시키기
-        * */
+        /* 3차 수정코드
+         * validation을 gradle에 추가
+         * @Valid 사용하여 @RequestBody로 들어오는 DTO값 검증하기
+         * MethodArgumentNotValidException 발생시켜야 함
+         * */
         // 예상
-        Long id = 1L;
-        String title = null;
-        String content = null;
-        ArticleForm dto = new ArticleForm(id, title, content);
-        Article expected = null;
+        MockHttpServletRequestBuilder builder = patch("/api/articles/1")
+                .content("{\"id\": \"1\"}")
+                .contentType(MediaType.APPLICATION_JSON);
 
-        // 실제
-        Article article = articleService.update(id, dto);
+        try{
+            mockMvc.perform(builder).andExpect(status().isBadRequest()).andDo(print());
+//            MvcResult result = mockMvc.perform(builder).andExpect(status().isBadRequest()).andReturn();
+//            String message = result.getResolvedException().getMessage();
+//            System.out.println("message = " + message);
 
-        // 비교
-        assertEquals(expected, article);
+        }catch (Exception e){
+
+        }
 
     }
-
-
 
     @Test
     @Transactional
     void delete_성공__존재하는_id_입력(){
         // 예상
 
+
         // 실제
+//        articleService.delete(id);
 
         // 비교
 

@@ -36,16 +36,43 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
+//    public Article update(Long id, ArticleForm dto) {
+//        // 1. 수정용 엔티티 생성
+//        Article article = dto.toEntity();
+//        log.info("id: {}, article: {}", id, article.toString());
+//
+//        // 수정1-1. 잘못된 요청 처리(존재하는 id만 입력한 경우)
+//        if(article.getTitle() == null & article.getContent() == null){
+//            log.info("잘못된 요청! id : {}, article{}", id, article.toString());
+//            return null;
+//        }
+//
+//        // 2. 대상 엔티티 조회
+//        Article target = articleRepository.findById(id).orElse(null);
+//
+//        // 3. 잘못된 요청 처리(대상이 없거나, id가 다른 경우)
+//        if(target == null || id != article.getId()){
+//            // 400, 잘못된 요청 응답!
+//            log.info("잘못된 요청! id: {}, article: {}", id, article.toString());
+//            return null;
+//        }
+//
+////        /* 수정전 4단계에서의 문제점
+////         * 1번 기존 title과 content를 다 지워 공백으로 보내는 것과
+////         * 2번 수정 값을 입력하지 않고 id만 보낼시
+////         * 의도가 명확히 다른 1,2번 상황 모두 title, content가 null값으로 보내지고 동일하게 처리된다.
+////         */
+////        // 4. 업데이트 및 정상 응답(200)
+//        target.patch(article);
+//        Article updated = articleRepository.save(target);
+//        return updated;
+//    }
+
+    //* 3차수정코드
     public Article update(Long id, ArticleForm dto) {
         // 1. 수정용 엔티티 생성
         Article article = dto.toEntity();
         log.info("id: {}, article: {}", id, article.toString());
-
-        // 수정1-1. 잘못된 요청 처리(존재하는 id만 입력한 경우)
-        if(article.getTitle() == null & article.getContent() == null){
-            log.info("잘못된 요청! id : {}, article{}", id, article.toString());
-            return null;
-        }
 
         // 2. 대상 엔티티 조회
         Article target = articleRepository.findById(id).orElse(null);
@@ -57,16 +84,13 @@ public class ArticleService {
             return null;
         }
 
-//        /* 수정전 4단계에서의 문제점
-//         * 1번 기존 title과 content를 다 지워 공백으로 보내는 것과
-//         * 2번 수정 값을 입력하지 않고 id만 보낼시
-//         * 의도가 명확히 다른 1,2번 상황 모두 title, content가 null값으로 보내지고 동일하게 처리된다.
-//         */
-//        // 4. 업데이트 및 정상 응답(200)
+        //4. 업데이트 및 정상 응답(200)
         target.patch(article);
         Article updated = articleRepository.save(target);
         return updated;
     }
+
+
 
     public Article delete(Long id) {
         // 대상 엔티티 찾기
@@ -104,7 +128,7 @@ public class ArticleService {
                 .forEach(article -> articleRepository.save(article));
 
 //        // <2의 코드를 for문으로 작성할 경우>
-//        for (int i = 0; i < articleList.size(); i++) {
+//        for (int i = 0; i < articleList.size(); i+ +) {
 //            Article article = articleList.get(i);
 //            articleRepository.save(article);
 //        }

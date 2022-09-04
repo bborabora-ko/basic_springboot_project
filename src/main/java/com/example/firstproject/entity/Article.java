@@ -24,12 +24,18 @@ public class Article {
     @Column
     private String content;
 
-    public void patch(Article article) { //수정된 데이터가 있는 경우에 그 부분만 고쳐줌
-        if(article.title != null){
-            this.title = article.title;
-        }
-        if(article.content != null){
-            this.content = article.content;
-        }
+//    public void patch(Article article) { //수정된 데이터가 있는 경우에 그 부분만 고쳐줌
+//        if(article.title != null){
+//            this.title = article.title;
+//        }
+//        if(article.content != null){
+//            this.content = article.content;
+//        }
+//    }
+
+    //* 3차수정코드
+    public void patch(Article article) {
+        this.title = article.title;
+        this.content = article.content;
     }
 }
