@@ -22,9 +22,6 @@ dependencies { // 프로그램 생성을 위한 도구들(라이브러리) 작�
 	//롬복 추가
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-
-	//validation을 위한 constraints package
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
