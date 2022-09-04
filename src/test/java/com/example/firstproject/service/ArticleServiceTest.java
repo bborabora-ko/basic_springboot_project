@@ -177,7 +177,6 @@ class ArticleServiceTest {
 //        ArticleForm dto = new ArticleForm(id, title, content);
 //        Article expected = new Article(1L, "가가가", "1111");
 //
-//
 //        // 실제
 //        Article article = articleService.update(id, dto);
 //
@@ -208,13 +207,13 @@ class ArticleServiceTest {
     }
 
 
-
     @Test
     @Transactional
     void delete_성공__존재하는_id_입력(){
         // 예상
 
         // 실제
+
 
         // 비교
 
