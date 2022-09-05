@@ -117,7 +117,7 @@ class ArticleServiceTest {
         Article article = articleService.update(id, dto);
 
         // 비교
-        assertEquals(expected, article);
+        assertEquals(expected.toString(), article.toString());
     }
 
     @Test
@@ -211,11 +211,16 @@ class ArticleServiceTest {
     @Transactional
     void delete_성공__존재하는_id_입력(){
         // 예상
+        Long id = 1L;
+        String title = "가가가";
+        String content = "1111";
+        Article expected = new Article(id, title, content);
 
         // 실제
-
+        Article article = articleService.delete(id);
 
         // 비교
+        assertEquals(expected.toString(), article.toString());
 
     }
 
@@ -223,10 +228,14 @@ class ArticleServiceTest {
     @Transactional
     void delete_실패__존재하지_않는_id_입력(){
         // 예상
+        Long id = -1L;
+        Article expected = null;
 
         // 실제
+        Article article = articleService.delete(id);
 
         // 비교
+        assertEquals(expected, article);
 
     }
 
